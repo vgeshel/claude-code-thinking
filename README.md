@@ -17,7 +17,7 @@ When enabled, this plugin changes how Claude Code works:
 The plugin has two parts:
 
 - **Default agent** (`agents/thinking.md`) — Applies the thinking rules as a system prompt to every conversation. This is always active when the plugin is enabled.
-- **Stop hooks** (`hooks/`) — Mechanically block responses that contain sycophantic phrases or lack the `_I THOUGHT_` deliberation marker. These catch violations that slip through the system prompt.
+- **Stop hooks** (`hooks/`) — Python scripts that mechanically block responses containing sycophantic phrases or lacking the `_I THOUGHT_` deliberation marker. These catch violations that slip through the system prompt.
 
 ## Install
 
@@ -30,25 +30,25 @@ The first command adds the marketplace. The second installs the plugin from it. 
 
 ## Requires
 
-- [Bun](https://bun.sh) — the hooks are TypeScript scripts executed by Bun
+- Python 3 — the hooks are Python scripts
 
-The plugin checks for `bun` on session start and prints a warning if it's missing.
+The plugin checks for `python3` on session start and prints a warning if it's missing.
 
 ## Run tests
 
 ```bash
-cd hooks && bun test
+cd hooks && python3 -m unittest -v
 ```
 
 ## Customization
 
 ### Disable the thinking marker
 
-If the `_I THOUGHT_` marker is too noisy for your workflow, remove the `check-thinking.ts` hook from `hooks/hooks.json`. The behavioral rules from the agent will still apply.
+If the `_I THOUGHT_` marker is too noisy for your workflow, remove the `check_thinking.py` hook from `hooks/hooks.json`. The behavioral rules from the agent will still apply.
 
 ### Add sycophancy patterns
 
-Edit the `SYCOPHANCY_PATTERNS` array in `hooks/check-sycophancy.ts`. Patterns are regexes checked against the first 300 characters of each response.
+Edit the `SYCOPHANCY_PATTERNS` list in `hooks/check_sycophancy.py`. Patterns are regexes checked against the first 300 characters of each response.
 
 ### Use as CLAUDE.md instead
 

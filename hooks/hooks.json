@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v bun >/dev/null 2>&1 || echo '[claude-thinking] Warning: bun is not installed. The sycophancy and thinking hooks require it. Install from https://bun.sh' >&2",
+            "command": "command -v python3 >/dev/null 2>&1 || echo '[claude-thinking] Warning: python3 is not installed. The sycophancy and thinking hooks require it.' >&2",
             "timeout": 5
           }
         ]
@@ -16,13 +16,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cat | bun run ${CLAUDE_PLUGIN_ROOT}/hooks/check-sycophancy.ts",
+            "command": "cat | python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check_sycophancy.py",
             "timeout": 5,
             "statusMessage": "Checking for sycophancy..."
           },
           {
             "type": "command",
-            "command": "cat | bun run ${CLAUDE_PLUGIN_ROOT}/hooks/check-thinking.ts",
+            "command": "cat | python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check_thinking.py",
             "timeout": 5,
             "statusMessage": "Checking for thinking checklist..."
           }
