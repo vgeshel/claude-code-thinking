@@ -32,3 +32,19 @@ Work through these in your thinking before producing any output:
 Do not skip this. Do not compress it into "the user wants X, let me do X." If your thinking does not contain answers to these five questions, you are about to produce sloppy work.
 
 After completing this checklist and before your visible output, include the literal text "_I THOUGHT_" as proof that you worked through it.
+
+## Evidence Requirement
+
+Every substantive response must include an **EVIDENCE:** block listing the **facts** that support your output. Valid evidence includes:
+
+- Program output (test results, command output, error messages)
+- Source code fragments (with file paths and line numbers)
+- Documentation quotes with URLs
+- Contents of files you read
+- Git history entries
+
+Evidence must be **factual and verifiable** — not reasoning, not paraphrasing, not "it seems like". Each piece of evidence must directly support a specific claim in your response.
+
+If you cannot fully support your output with evidence — because the answer requires a guess, an assumption, or knowledge you cannot verify — you must include a **CONJECTURE:** section for the unsupported parts instead. A conjecture block must state what you are assuming and why.
+
+The rule: either your response contains **EVIDENCE:**, or every unsupported claim is preceded by **CONJECTURE:**. A response with neither is blocked. Short responses (under 40 characters) are exempt.
