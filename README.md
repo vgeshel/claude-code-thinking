@@ -8,7 +8,7 @@ When enabled, this plugin changes how Claude Code works:
 
 1. **Deliberation checklist** — Before every substantive response, Claude works through 5 questions: What is being asked? What does a complete solution require? What do I not know? Does this conflict with anything? How will I verify this works?
 
-2. **Zero sycophancy** — Blocks reflexive agreement phrases ("you're right", "good point", "great idea"). These are a canary for shallow thinking — if Claude is agreeing without examining, it hasn't evaluated deeply enough.
+2. **Zero sycophancy** — Blocks reflexive agreement phrases ("you're right", "good point", "great idea"). These are a canary for shallow thinking — if Claude is agreeing without examining, it hasn't evaluated deeply enough. Note: the sycophancy patterns currently match English phrases only.
 
 3. **Behavioral rules** — Think before acting, verify your own work, fix all problems (no "low priority" excuses), answer questions before jumping to action, finish everything the user asked for.
 
@@ -22,18 +22,14 @@ The plugin has two parts:
 ## Install
 
 ```bash
-claude plugins:add /path/to/claude-thinking
-```
-
-Or if published to the marketplace:
-
-```bash
-claude plugins:add claude-thinking
+claude plugins:add vgeshel/claude-code-thinking
 ```
 
 ## Requires
 
 - [Bun](https://bun.sh) — the hooks are TypeScript scripts executed by Bun
+
+The plugin checks for `bun` on session start and prints a warning if it's missing.
 
 ## Run tests
 
