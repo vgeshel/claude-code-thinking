@@ -1,0 +1,9 @@
+{
+  "name": "claude-thinking",
+  "description": "Enforces deliberate thinking, eliminates sycophancy, and improves response quality through behavioral rules and mechanical hooks",
+  "version": "1.0.0",
+  "author": {
+    "name": "exe.dev"
+  },
+  "keywords": ["thinking", "quality", "sycophancy", "deliberation"]
+}

@@ -1,0 +1,22 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | bun run hooks/check-sycophancy.ts",
+            "timeout": 5,
+            "statusMessage": "Checking for sycophancy..."
+          },
+          {
+            "type": "command",
+            "command": "cat | bun run hooks/check-thinking.ts",
+            "timeout": 5,
+            "statusMessage": "Checking for thinking checklist..."
+          }
+        ]
+      }
+    ]
+  }
+}
