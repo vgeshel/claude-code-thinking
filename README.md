@@ -21,8 +21,17 @@ The plugin has two parts:
 
 ## Install
 
+From within a Claude Code session:
+
+```
+/plugin marketplace add vgeshel/claude-code-thinking
+/plugin install claude-thinking@vgeshel-claude-code-thinking
+```
+
+From the terminal:
+
 ```bash
-claude plugins:add vgeshel/claude-code-thinking
+claude /plugin marketplace add vgeshel/claude-code-thinking
 ```
 
 ## Requires

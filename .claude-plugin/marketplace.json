@@ -1,0 +1,11 @@
+{
+  "name": "claude-code-thinking",
+  "description": "Plugins for deliberate thinking and response quality",
+  "plugins": [
+    {
+      "name": "claude-thinking",
+      "description": "Enforces deliberate thinking, eliminates sycophancy, and improves response quality through behavioral rules and mechanical hooks",
+      "path": "."
+    }
+  ]
+}
