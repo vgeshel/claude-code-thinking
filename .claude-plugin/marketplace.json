@@ -1,11 +1,19 @@
 {
   "name": "claude-code-thinking",
-  "description": "Plugins for deliberate thinking and response quality",
+  "owner": {
+    "name": "Vadim Geshel",
+    "email": "vgeshel@gmail.com"
+  },
+  "metadata": {
+    "description": "Plugins for deliberate thinking and response quality"
+  },
   "plugins": [
     {
       "name": "claude-thinking",
       "description": "Enforces deliberate thinking, eliminates sycophancy, and improves response quality through behavioral rules and mechanical hooks",
-      "path": "."
+      "source": "./",
+      "version": "1.0.0",
+      "license": "MIT"
     }
   ]
 }
