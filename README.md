@@ -22,11 +22,11 @@ The plugin has two parts:
 ## Install
 
 ```bash
-claude plugin marketplace add vgeshel/claude-code-thinking
-claude plugin install claude-thinking
+claude plugin marketplace add vgeshel/claude-code-thinking --scope project
+claude plugin install claude-thinking --scope project
 ```
 
-The first command adds the marketplace. The second installs the plugin from it.
+The first command adds the marketplace. The second installs the plugin from it. `--scope project` stores the configuration in the project so all contributors get it.
 
 ## Requires
 
