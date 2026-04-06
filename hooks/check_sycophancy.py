@@ -4,7 +4,8 @@ Stop hook: blocks responses that begin with sycophantic agreement phrases.
 
 Sycophancy is a canary for shallow thinking. When Claude reflexively agrees
 ("you're right", "good point", "great idea"), it usually means it hasn't
-evaluated the user's input deeply enough. This hook forces a re-examination.
+evaluated the user's input deeply enough. This hook forces a full rethink,
+not just a surface-level rephrasing that removes the trigger phrase.
 """
 
 import json
@@ -31,8 +32,10 @@ def check_sycophancy(message: str) -> str | None:
     for pattern in SYCOPHANCY_PATTERNS:
         if pattern.search(snippet):
             return (
-                f'Sycophancy detected: "{snippet[:80]}..." — rephrase without '
-                "agreement phrases and re-examine whether your reasoning holds up."
+                f'Sycophancy detected: "{snippet[:80]}..." — reflexive agreement '
+                "is a sign of shallow thinking. Stop, re-examine the user's input "
+                "critically, and respond with your honest, independent assessment. "
+                "Do not simply remove the agreeable phrase — actually rethink."
             )
     return None
 
