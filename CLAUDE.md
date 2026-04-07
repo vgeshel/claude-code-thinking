@@ -27,13 +27,16 @@ Hooks are configured in `hooks/hooks.json` using `${CLAUDE_PLUGIN_ROOT}` to reso
 - **SessionStart** — Checks that `python3` is installed; warns if missing.
 - **Stop** (runs before every response completes):
   1. `check_sycophancy.py` — Rejects if any of 11 regex patterns match in the first 300 chars.
-  2. `check_thinking.py` — Rejects if `_I THOUGHT_` marker is absent (messages < 40 chars are exempt).
+  2. `check_thinking.py` — Rejects if any of these fail (messages < 40 chars are exempt):
+     - `_I THOUGHT_` marker absent.
+     - No `**EVIDENCE:**` or `**CONJECTURE:**` block present.
+     - Block present but malformed: empty, clauses missing required fields, invalid ref type, or a ref that fails structural validation (e.g. `src:` without `path:line`, `quote:` without `session:`/`ts:` metadata, `knowledge:` too short).
 
 ### Hook I/O Protocol
 
 Input: JSON via stdin with `{ stop_hook_active, last_assistant_message, transcript_path }`.
 Output: exit 0 to pass, exit 2 to reject (error message on stderr). If `stop_hook_active` is true, the hook exits 0 immediately (avoids infinite rejection loops).
 
-### Transcript Parsing (`check-thinking.ts`)
+### Transcript Parsing (`check_thinking.py`)
 
-The thinking hook searches the JSONL transcript backward from the end to find the marker anywhere in the current assistant turn — not just the final message. It skips `tool_result` user entries because those are interleaved mid-turn (between tool_use and response), not real turn boundaries.
+The thinking hook concatenates all assistant text blocks from the current turn (via `get_current_turn_text`) and runs the marker check and block parser against the joined text. This is needed because EVIDENCE/CONJECTURE blocks and the `_I THOUGHT_` marker may appear in an earlier text block of the same turn, before tool calls. Turn boundaries skip `tool_result` user entries (interleaved mid-turn between tool_use and response) and only break on real user messages.
