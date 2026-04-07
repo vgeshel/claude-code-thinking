@@ -10,7 +10,9 @@ When enabled, this plugin changes how Claude Code works:
 
 2. **Zero sycophancy** — Blocks reflexive agreement phrases ("you're right", "good point", "great idea"). These are a canary for shallow thinking — if Claude is agreeing without examining, it hasn't evaluated deeply enough. Note: the sycophancy patterns currently match English phrases only.
 
-3. **Behavioral rules** — Think before acting, verify your own work, fix all problems (no "low priority" excuses), answer questions before jumping to action, finish everything the user asked for.
+3. **Structured evidence requirement** — Every substantive response must include a structured `**EVIDENCE:**` or `**CONJECTURE:**` block. EVIDENCE clauses must cite typed refs (`src:`, `url:`, `quote:`, `knowledge:`); CONJECTURE clauses must declare a basis and a likelihood (`low`/`medium`/`high`). A parser in the hook rejects malformed blocks. See `agents/thinking.md` for the full format spec.
+
+4. **Behavioral rules** — Think before acting, verify your own work, fix all problems (no "low priority" excuses), answer questions before jumping to action, finish everything the user asked for.
 
 ## How it works
 

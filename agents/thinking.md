@@ -35,16 +35,66 @@ After completing this checklist and before your visible output, include the lite
 
 ## Evidence Requirement
 
-Every substantive response must include an **EVIDENCE:** block listing the **facts** that support your output. Valid evidence includes:
+Every substantive response must include at least one structured **EVIDENCE:** or **CONJECTURE:** block. A hook parses these blocks and mechanically rejects responses that are missing them, that contain empty blocks, or that contain malformed clauses. Short responses (under 40 characters) are exempt.
 
-- Program output (test results, command output, error messages)
-- Source code fragments (with file paths and line numbers)
-- Documentation quotes with URLs
-- Contents of files you read
-- Git history entries
+### Anti-fabrication rule — READ THIS
 
-Evidence must be **factual and verifiable** — not reasoning, not paraphrasing, not "it seems like". Each piece of evidence must directly support a specific claim in your response.
+**Never fabricate evidence.** Every ref you cite must point at something that actually exists and actually says what you claim. If you write `src: foo.py:42`, then line 42 of `foo.py` must exist and must contain what you're citing. If you write `url: https://…`, you must have actually fetched it in this session. If you write a `quote:`, it must be a verbatim excerpt you can locate in the session transcript or your visible thinking trace. **Inventing citations to satisfy the checker is the worst possible failure mode of this plugin** — it converts the evidence requirement from a safeguard into a generator of confident-sounding lies.
 
-If you cannot fully support your output with evidence — because the answer requires a guess, an assumption, or knowledge you cannot verify — you must include a **CONJECTURE:** section for the unsupported parts instead. A conjecture block must state what you are assuming and why.
+If you cannot back a claim with a real, verifiable ref, move that claim to **CONJECTURE:** and state your actual basis honestly. "I don't have evidence for this, here is my reasoning" is always acceptable. Fabricated evidence is never acceptable.
 
-The rule: either your response contains **EVIDENCE:**, or every unsupported claim is preceded by **CONJECTURE:**. A response with neither is blocked. Short responses (under 40 characters) are exempt.
+### EVIDENCE block format
+
+An EVIDENCE block is a sequence of clauses. Each clause has a `claim` line (your interpretation) followed by one or more indented ref sub-bullets (the facts supporting the interpretation).
+
+```
+**EVIDENCE:**
+- claim: <your interpretation of what the facts show>
+  - src: <path>:<line>
+  - src: <path>:<start-line>-<end-line>
+  - url: https://<url-you-have-actually-fetched>
+  - quote: "<verbatim excerpt>" [session: <id>, ts: <ISO-8601-timestamp>]
+  - knowledge: <specific, named source from your training data>
+- claim: <next interpretation>
+  - <at least one ref>
+```
+
+Rules enforced by the checker:
+
+- Each clause must start with `- claim: <text>` and have **at least one** ref sub-bullet.
+- A ref must be one of exactly these four types:
+  - **`src:`** — a source code location. Format: `path:line` or `path:start-end`. The path must contain `/` or `.`. The line must be a positive integer.
+  - **`url:`** — an `http://` or `https://` URL you have actually fetched in this session (via WebFetch or equivalent). Do not cite URLs from memory.
+  - **`quote:`** — a verbatim excerpt from the current session's transcript or visible thinking trace. Must be wrapped in double quotes and include `[session: <id>, ts: <timestamp>]` metadata on the same line. Example: `- quote: "the user said: run the tests first" [session: abc-123, ts: 2026-04-07T14:32:10Z]`.
+  - **`knowledge:`** — an explicit reference to a specific, named source in your training data. Examples: "Python stdlib `re` module documentation", "PEP 484 section on Optional". Do not use this as a catch-all for "I just know this" — name the source.
+- Unknown ref types, missing type keywords, malformed line numbers, empty knowledge descriptions, and missing quote metadata all cause the block to be rejected.
+
+### When asked to explain or justify your thinking
+
+If the user asks you to account for your prior reasoning (e.g. "why did you do X?", "what were you thinking?", "justify this decision"), your EVIDENCE block MUST contain `quote:` refs with direct, verbatim excerpts from the session transcript or thinking trace, each including session id and timestamp. Paraphrasing is not acceptable in this context — your interpretation goes in the `claim:` line; the `quote:` is the raw ground truth. If you cannot produce a verbatim quote to back up what you claim you were thinking, you cannot claim it — put it in CONJECTURE instead, with `basis: "post-hoc reconstruction, no transcript record"` and a low likelihood.
+
+### CONJECTURE block format
+
+A CONJECTURE block is a sequence of clauses. Each clause has a `claim`, a `basis` (what leads you to the conjecture), and a `likelihood` (your honest assessment of how confident you are).
+
+```
+**CONJECTURE:**
+- claim: <the assumption or unsupported assertion>
+  - basis: <what leads you to believe this — partial evidence, analogy, pattern match, heuristic>
+  - likelihood: low — <rationale>
+- claim: <next conjecture>
+  - basis: <...>
+  - likelihood: medium — <rationale>
+```
+
+Rules enforced by the checker:
+
+- Each clause must have `- claim:`, `- basis:`, and `- likelihood:` lines.
+- `likelihood` must be exactly one of `low`, `medium`, or `high` (followed by an optional rationale after `—` or similar).
+  - **low** = weak signals, largely a guess.
+  - **medium** = plausible, pattern-consistent, but not verified.
+  - **high** = strongly suggested by circumstantial evidence but not directly proven.
+
+### Mixing evidence and conjecture
+
+A response may contain both blocks. Put facts you can cite in EVIDENCE; put assumptions, inferences, and guesses in CONJECTURE. If a claim has no factual support AND no honest basis, do not make the claim at all.
